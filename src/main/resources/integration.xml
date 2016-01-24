@@ -2,19 +2,27 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:int="http://www.springframework.org/schema/integration"
        xmlns:task="http://www.springframework.org/schema/task"
-       xmlns:beans="http://www.springframework.org/schema/beans" xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd">
 
-    <int:channel id="inputChannel">
-        <int:dispatcher task-executor="taskExecutor"/>
-    </int:channel>
+    <!-- <int:channel id="inputChannel">
+         <int:dispatcher task-executor="taskExecutor" />
+     </int:channel>  -->
+
+    <int:channel id="requestChannel"/>
+    <int:channel id="inputChanel"/>
+
+    <int:gateway id="launcher" service-interface="com.cjemison.example.service.LauncherGateway"
+                 default-request-channel="requestChannel"
+                 async-executor="taskExecutor" default-reply-timeout="0">
+    </int:gateway>
+
 
     <task:executor id="taskExecutor" pool-size="10" queue-capacity="100"/>
 
-    <int:service-activator input-channel="inputChannel">
-        <beans:bean id="jobLauncher" class="com.cjemison.example.service.JobLauncher"/>
+    <int:service-activator input-channel="requestChannel" ref="jobLauncher">
     </int:service-activator>
 
     <int:logging-channel-adapter id="logger" level="DEBUG"/>
