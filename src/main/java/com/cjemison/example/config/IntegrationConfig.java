@@ -26,7 +26,7 @@ public class IntegrationConfig {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
         threadPoolTaskExecutor.setCorePoolSize(5);
         threadPoolTaskExecutor.setQueueCapacity(400);
-        threadPoolTaskExecutor.setMaxPoolSize(100);
+        threadPoolTaskExecutor.setMaxPoolSize(10);
         threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
         return threadPoolTaskExecutor;
     }
