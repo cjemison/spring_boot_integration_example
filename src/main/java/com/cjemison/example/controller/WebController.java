@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +23,10 @@ public class WebController {
     private LauncherGateway launcher;
 
     @RequestMapping("/launch")
-    public ResponseEntity<?> processRequest() throws ExecutionException, InterruptedException {
+    public Future<ResponseEntity<?>> processRequest() throws ExecutionException, InterruptedException {
         logger.info("Sending....");
         Future<String> future = launcher.helloWorld(UUID.randomUUID().toString());
         logger.info("Sent ending....");
-        return ResponseEntity.ok("ok");
+        return new AsyncResult<ResponseEntity<?>>(ResponseEntity.ok(future.get()));
     }
 }

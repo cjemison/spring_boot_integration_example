@@ -7,12 +7,10 @@
       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd">
 
-    <!-- <int:channel id="inputChannel">
-         <int:dispatcher task-executor="taskExecutor" />
-     </int:channel>  -->
 
-    <int:channel id="requestChannel"/>
-    <int:channel id="inputChanel"/>
+    <int:channel id="requestChannel">
+
+    </int:channel>
 
     <int:gateway id="launcher" service-interface="com.cjemison.example.service.LauncherGateway"
                  default-request-channel="requestChannel"
